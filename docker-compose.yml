@@ -1,0 +1,60 @@
+version: "3"
+
+services:
+  db:
+    build:
+      context: ./
+      dockerfile: Dockerfile-mysql
+    image: baby-mysql:1.0
+    container_name: baby-mysql
+    volumes:
+      - ./db/ddl/00_create_database.sql:/docker-entrypoint-initdb.d/00_create_database.sql
+      - ./db/ddl/01_create_user.sql:/docker-entrypoint-initdb.d/01_create_user.sql
+      - ./db/ddl/02_create_table.sql:/docker-entrypoint-initdb.d/02_create_table.sql
+      - ./db/data:/var/lib/mysql
+      - ./db/mysql:/etc/mysql/conf.d
+    expose:
+      - "3306"
+    ports:
+      - "3306:3306"
+    networks:
+      - baby
+  redis:
+    build:
+      context: ./
+      dockerfile: Dockerfile-redis
+    image: baby-redis:1.0
+    container_name: baby-redis
+    volumes:
+      - ./redis/data:/data
+    expose:
+      - "6379"
+    ports:
+      - "6379:6379"
+    networks:
+      - baby
+  backend:
+    build:
+      context: ./
+      dockerfile: Dockerfile-server
+    image: baby-server:1.0
+    container_name: baby-server
+    command: "air -c .air.toml"
+    expose:
+      - "8080"
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+      - redis
+    environment:
+      EXEC_MODE: "docker"
+      CONFIG_FILE: "/app/config/config.yaml"
+    networks:
+      - baby
+
+networks:
+  baby:
+    driver: bridge

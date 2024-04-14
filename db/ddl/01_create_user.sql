@@ -1,0 +1,2 @@
+CREATE USER 'baby_user'@'%' IDENTIFIED BY 'baby_pass';
+GRANT SELECT,INSERT,UPDATE,DELETE,EXECUTE,SHOW VIEW ON diary.* TO 'baby_user'@'%';

@@ -1,0 +1,2 @@
+CREATE DATABASE baby;
+CREATE DATABASE baby_test;
