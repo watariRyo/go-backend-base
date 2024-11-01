@@ -12,6 +12,7 @@ firebase は認証に用いている
 ### 残
 
 Migration の対応
+moduleが昔作成した`github.com/watariRyo/baby-map-server`のままなので置換
 
 ## 技術スタック
 
