@@ -14,6 +14,8 @@ firebase は認証に用いている
 Migration の対応  
 moduleが昔作成した`github.com/watariRyo/baby-map-server`のままなので置換
 
+contextをServerに引き回してしまったので分離する
+
 ## 技術スタック
 
 | 技術                   | 分類             | バージョン |
